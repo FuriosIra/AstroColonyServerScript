@@ -197,4 +197,5 @@ cd ~
 echo "";echo "";echo "";echo "";
 echo "Installation complete "
 echo "To run the server, go in the "`pwd`"/LinuxServer folder and run './StartACserver.sh'"
+echo "For support, please join AstroColony's official discord server : https://discord.com/invite/EFzAA3w"
 cd ~/LinuxServer
