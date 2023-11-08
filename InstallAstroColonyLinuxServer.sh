@@ -33,7 +33,7 @@ echo " - lib32gcc-s1"
 echo " - screen or tmux (optionnal)"
 echo ""
 echo "To make sure those are installed, exit this script by hitting CTRL+C and enter this command with admin privileges :"
-echo "apt install tar unzip lib32gg-s1 -y"
+echo "apt install tar unzip lib32gcc-s1 -y"
 echo "Once this is done, come back here and press enter"
 read ready
 
@@ -47,7 +47,7 @@ echo ""
 
 echo "How do you want to name your server ? default : ${defaultServerName}"
 read serverName
-if [[ -z $serverName ]]
+if [ -z $serverName ]
 then 
 	serverName=$defaultServerName
 fi
@@ -57,7 +57,7 @@ echo ""
 
 echo "Which password will be needed to connect ? Press enter for no password (security risk)"
 read serverPassword
-if [[ -z $serverPassword ]]
+if [ -z $serverPassword ]
 then 
 	serverPassword=$defaultServerPassword
 fi
@@ -67,11 +67,11 @@ echo ""
 
 echo "Which port will be used to connect ? default : ${defaultServerPort} (recommended) must be within 1-65535"
 read serverPort
-if [[ -z $serverPort ]] && [[ $serverPort -ge 0 ]] && [[ 65536 -ge $serverPort  ]]
+if [ -z $serverPort ] && [ $serverPort -ge 0 ] && [ 65536 -ge $serverPort  ]
 then 
 	serverPort=$defaultServerPort
 fi
-echo "Your server password will be ${serverPort}"
+echo "Your server port will be ${serverPort}/udp - dont forget to open this port on your firewall/router"
 echo ""
 echo ""
 
@@ -80,7 +80,7 @@ echo "Add Admins to manage server once ingame (default : none)"
 echo "This must be a list of steamid64 separated by commas : 76561198125852136,76561198262568532,76561198193923467"
 echo "To get your steamid64, you may want to go on https://steamid.io"
 read serverAdminList
-if [[ -z $serverAdminList ]]
+if [ -z $serverAdminList ]
 then 
 	serverAdminList=$defaultServerAdminList
 fi
@@ -90,7 +90,7 @@ echo ""
 
 echo "How many players do you want maximum connected together on your server ? default : ${defaultServerMaxPlayers}"
 read serverMaxPlayers
-if [[ -z $serverMaxPlayers ]]
+if [ -z $serverMaxPlayers ]
 then 
 	serverMaxPlayers=$defaultServerMaxPlayers
 fi
@@ -101,7 +101,7 @@ echo ""
 echo "SavegameName setting skipped. Feel free to uncomment when this is working"
 #echo "How do you want to name your save file ? default : ${defaultServerSavegameName}"
 #read serverSavegameName
-#if [[ -z $serverSavegameName ]]
+#if [ -z $serverSavegameName ]
 #then 
 	serverSavegameName=$defaultServerSavegameName
 #fi
@@ -111,7 +111,7 @@ echo ""
 
 echo "How do you want to name your save file in the server list ? default : ${defaultServerMapName}"
 read serverMapName
-if [[ -z $serverMapName ]]
+if [ -z $serverMapName ]
 then 
 	serverMapName=$defaultServerMapName
 fi
@@ -121,11 +121,11 @@ echo ""
 
 echo "What seed will be used for generation ? default : ${defaultServerSeed}. Must be only number or it will default to 113"
 read serverSeed
-if [[ -z $serverSeed ]]
+if [ -z $serverSeed ]
 then 
 	serverSeed=$defaultServerSeed
 #astro colony seeds shinanigan, if the seed contain something else than number it will fallback to 113
-elif [[ serverSeed =~ [^[:digit:]]  ]]; then
+elif [ serverSeed =~ [^[:digit:]  ]; then
 	echo "You entered a alphanumeric seed, unfortunately if the seed is not only number, it will be 113 whatever you try"
 	serverSeed=113
 fi
@@ -138,16 +138,18 @@ clear
 echo "Here are the settings you just defined :"
 echo "Server display name : ${serverName}"
 echo "Server access password : ${serverPassword}"
-echo "Server Port used (may need to be opened) : ${serverPort}/udp"
+echo "Server Port used : ${serverPort}/udp - dont forget to open it on your firewall/router even for lan game"
 echo "Admin's steamid64 : ${serverAdminList}"
 #echo "Save Game Name : ${savegameName}"
+echo "Save game display name : ${serverSavegameName}"
 echo "Default world's seed : ${serverSeed}"
 echo ""
 echo "These settings will be editable later in the config files (check github and/or official discord server for help)"
-echo "Is everything as you want it ? (Y/n)"
+echo "Is everything as you want it ? Press enter to continue"
 read installServer
 
-if [[ $installServer != "y" ]] || [[ $installServer != "Y" ]]
+#failed Y/n answer, but it you press enter it still goes on, will fix later
+if [ $installServer != "y" ] || [ $installServer != "Y" ]
 then
 	exit
 fi
@@ -174,23 +176,23 @@ cp ~/libsdk/linux64/steamclient.so ~/LinuxServer/AstroColony/Binaries/Linux/stea
 echo "Creating config file in" `pwd`"/LinuxServer/AstroColony/Saved/Config/LinuxServer/ServerSettings.ini"
 mkdir -p LinuxServer/AstroColony/Saved/Config/LinuxServer && cd LinuxServer/AstroColony/Saved/Config/LinuxServer
 
-echo '[/Script/AstroColony.EHServerSubsystem]' >> ServerSettings.ini
-echo 'ServerPassword=${serverPassword}' >> ServerSettings.ini
-echo 'MapName=${serverMapName}' >> ServerSettings.ini
-echo 'Seed=${serverSeed}' >> ServerSettings.ini
-echo 'MaxPlayers=${serverMaxPlayers}' >> ServerSettings.ini
-echo 'SavegameName=${serverSavegameName}' >> ServerSettings.ini
-echo 'ShouldLoadLatestSavegame=True' >> ServerSettings.ini
-echo 'AdminList=${serverAdminList}' >> ServerSettings.ini
-echo 'SharedTechnologies=True' >> ServerSettings.ini
-echo 'OxygenConsumption=True' >> ServerSettings.ini
-echo 'FreeConstruction=False' >> ServerSettings.ini
-echo 'AutosaveInterval=5.0' >> ServerSettings.ini
-echo 'AutosavesCount=10' >> ServerSettings.ini
+echo "[/Script/AstroColony.EHServerSubsystem]" >> ServerSettings.ini
+echo "ServerPassword=${serverPassword}" >> ServerSettings.ini
+echo "MapName=${serverMapName}" >> ServerSettings.ini
+echo "Seed=${serverSeed}" >> ServerSettings.ini
+echo "MaxPlayers=${serverMaxPlayers}" >> ServerSettings.ini
+echo "SavegameName=${serverSavegameName}" >> ServerSettings.ini
+echo "ShouldLoadLatestSavegame=True" >> ServerSettings.ini
+echo "AdminList=${serverAdminList}" >> ServerSettings.ini
+echo "SharedTechnologies=True" >> ServerSettings.ini
+echo "OxygenConsumption=True" >> ServerSettings.ini
+echo "FreeConstruction=False" >> ServerSettings.ini
+echo "AutosaveInterval=5.0" >> ServerSettings.ini
+echo "AutosavesCount=10" >> ServerSettings.ini
 cd ~/LinuxServer
 
 echo '#!/bin/sh' >> StartACserver.sh
-echo './AstroColonyServer.sh -QueryPort=27015 -SteamServerName="[ChangeMe]" -log' >> StartACserver.sh
+echo "./AstroColonyServer.sh -QueryPort=${serverPort} -SteamServerName=\"${serverName}\" -log" >> StartACserver.sh
 chmod +x StartACserver.sh
 
 cd ~
