@@ -14,7 +14,7 @@ defaultServerPassword=""
 defaultServerPort="27015"
 defaultServerAdminList=""
 defaultServerMaxPlayers="5"
-defaultServerSavegameName="AstroColony game"
+defaultServerSavegameName="AstroColony save"
 defaultServerMapName="AstroColony game"
 defaultServerSeed="7300"
 
@@ -166,7 +166,7 @@ echo "Unzipping the files"
 unzip AstroColonyLinuxServer.zip && chmod +x LinuxServer/AstroColonyServer.sh
 
 echo "Downloading SteamCMD and dependances"
-mkdir steamcmd && cd steamcmd
+mkdir -p steamcmd && cd steamcmd
 wget http://media.steampowered.com/client/steamcmd_linux.tar.gz && tar -xvzf steamcmd_linux.tar.gz 
 ./steamcmd.sh +force_install_dir ../libsdk +login anonymous +app_update 1007 +quit 
 
