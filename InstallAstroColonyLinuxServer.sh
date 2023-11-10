@@ -109,7 +109,7 @@ echo "SavegameName setting skipped. Feel free to uncomment when this is working"
 echo ""
 echo ""
 
-echo "How do you want to name your save file in the server list ? default : ${defaultServerMapName}"
+echo "How do you want to name map ? (it will show in Steam server list) default : ${defaultServerMapName}"
 read serverMapName
 if [ -z $serverMapName ]
 then 
