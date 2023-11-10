@@ -171,7 +171,7 @@ wget http://media.steampowered.com/client/steamcmd_linux.tar.gz && tar -xvzf ste
 ./steamcmd.sh +force_install_dir ../libsdk +login anonymous +app_update 1007 +quit 
 
 echo "Putting dependances where they should go"
-cp ~/libsdk/linux64/steamclient.so ~/LinuxServer/AstroColony/Binaries/Linux/steamclient.so && cd ~
+cp ~/libsdk/linux64/steamclient.so ~/LinuxServer/AstroColony/Binaries/Linux/steamclient.so && cd ~/
 
 echo "Creating config file in" `pwd`"/LinuxServer/AstroColony/Saved/Config/LinuxServer/ServerSettings.ini"
 mkdir -p LinuxServer/AstroColony/Saved/Config/LinuxServer && cd LinuxServer/AstroColony/Saved/Config/LinuxServer
